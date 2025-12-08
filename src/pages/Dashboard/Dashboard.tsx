@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     return (
-        <div className="w-screen flex bg-[#FDFAF4] overflow-x-hidden h-screen">
+        <div className="w-full flex bg-[#FDFAF4] h-screen">
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
@@ -18,12 +18,14 @@ const Dashboard = () => {
             )}
 
             {/* Sidebar */}
-            <div className={`${isOpen ? 'w-0 z-50 md:w-72' : 'w-16'} transition-all duration-300 left-0 h-screen fixed`}>
+            <div className={`
+            fixed left-0 top-0 h-full z-50 bg-white transition-all duration-300
+            ${isOpen ? "w-72" : "w-16"}`}>
                 <Sidebar setPageName={setPageName} isOpen={isOpen} />
             </div>
 
             {/* Main area (Topbar + Content) */}
-            <div className= {`flex-1 flex flex-col text-black p-10 transition-all duration-300  ${isOpen ? "ml-0 md:ml-72" : "ml-16"}`}>
+            <div className= {`flex-1 flex flex-col text-black px-10 pt-2 transition-all duration-300 h-full overflow-x-scroll ${isOpen ? "ml-0 md:ml-72" : "ml-16"}`}>
 
                 {/* Topbar */}
                 <Topbar pageName={pageName} />

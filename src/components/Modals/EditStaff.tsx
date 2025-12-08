@@ -67,7 +67,6 @@ const EditStaff = ({ staffId, onClose }: ModalProps) => {
     }, [staffDetails, reset]);
 
     const onSubmit = async (formData: EditStaffFormData) => {
-        console.log(formData);
         updateStaffMutation.mutate({
             id: staffId,
             data: formData

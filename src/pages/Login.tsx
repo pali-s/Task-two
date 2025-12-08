@@ -23,11 +23,8 @@ const Login = () => {
     const onSubmit:
     SubmitHandler<FormData>= async(data)=>{
         try{
-            console.log("SubmitHandler data:",data);
             mutate(data,{
-                onError:(error)=>{
-                    console.log("err-mssg",error.message);
-                    console.log("errname",error.name);
+                onError:()=>{
                     toast.error('Login failed');
             },
                 onSuccess:(res)=>{
@@ -43,7 +40,7 @@ const Login = () => {
     }
 
     return (
-            <div className='[background:linear-gradient(136.57deg,#284E3E_-12.69%,#3D7A60_32.7%)] grid grid-cols-1 md:grid-cols-2 w-full md:w-screen h-screen md:overflow-y-hidden
+            <div className='[background:linear-gradient(136.57deg,#284E3E_-12.69%,#3D7A60_32.7%)] grid grid-cols-1 md:grid-cols-2 w-full md:h-screen
 '>
 
                 {/* Left Container */}
@@ -51,7 +48,7 @@ const Login = () => {
                     <div></div>
                     <img src='src\assets\images\login.png' alt='login-image'
                         className='w-full max-w-md h-auto'/>
-                    <p className='mt-4 font-[SF Pro Display, sans-serif] font-normal text-base leading-none tracking-normal text-center' >FoodVerse<sup className='text-xs align-super'>TM</sup></p>
+                    <p className='mt-4 font-[SF Pro Display, sans-serif] font-normal text-base leading-none tracking-normal text-center text-white' >FoodVerse<sup className='text-xs align-super'>TM</sup></p>
                 </div>
 
 
