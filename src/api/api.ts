@@ -2,7 +2,7 @@ import axios from "axios";
 import { queryClient } from "../main";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL
+    baseURL: "/.netlify/functions/api"
 })
 
 //set bearer token
