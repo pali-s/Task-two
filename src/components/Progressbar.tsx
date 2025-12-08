@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Progressbar = ({
     value = 0,
     total = 100,
