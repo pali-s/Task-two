@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 import useGetStaffById from "../../queries/staff/useGetStaffById";
 import { useUpdateStaff } from "../../queries/staff/useUpdateStaff";
+import Textfield from "../Ui/TextField";
 
 export interface EditStaffFormData {
     name: string;
@@ -100,34 +101,30 @@ const EditStaff = ({ staffId, onClose }: ModalProps) => {
                     <h2 className="text-md font-semibold mb-2">Personal Details</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* name */}
-                    <div className="flex flex-col">
-                        <label className="font-sm">Full Name</label>
-                        <input
-                            {...register("name", { required: true })}
-                            className="w-full p-2 border border-[#C4C4C4] rounded-lg  bg-[#FCF8EE]"
-                        />
-                    </div>
+                    <Textfield
+                    label="Full Name"
+                    registration={register('name',{required:true})}
+                    bg="#FCF8EE"/>
+
                     {/* phone number */}
-                    <div>
-                        <label className="font-sm">Phone Number</label>
-                        <input
-                            {...register("phone_number", { required: true })}
-                            className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                        />
-                    </div>
+                    <Textfield
+                    label="Phone Number"
+                    registration={register('phone_number',{required:true})}
+                    bg="#FCF8EE"/>
+
                     {/* email */}
                     <div>
-                        <label className="font-sm">Email</label>
+                        <label className="text-[#565656]">Email</label>
                         <input
                             {...register("email", { required: true })}
-                            className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#C4C4C4]"
+                            className="w-full p-2 border border-[#C4C4C4] rounded-md px-3 py-2 bg-[#C4C4C4]"
                             disabled
                         />
                     </div>
                     {/* role */}
                     <div>
-                        <label className="font-sm">Role</label>
-                        <select {...register("role")} className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]">
+                        <label className="text-[#565656]">Role</label>
+                        <select {...register("role")} className="w-full px-3 py-2 border border-[#C4C4C4] rounded-md bg-[#FCF8EE]">
                             <option value="ADMIN">Admin</option>
                             <option value="STAFF">Staff</option>
                             <option value="MANAGER">Manager</option>
@@ -141,29 +138,20 @@ const EditStaff = ({ staffId, onClose }: ModalProps) => {
                     <h2 className="text-md font-semibold mb-2">Temporary Address</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label className="font-sm">Country</label>
-                            <input
-                                {...register("temporary_address.country")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="Country"
+                        registration={register('temporary_address.country',{required:true})}
+                        bg="#FCF8EE"/>
 
-                        <div>
-                            <label className="font-sm">City</label>
-                            <input
-                                {...register("temporary_address.city")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="City"
+                        registration={register('temporary_address.city',{required:true})}
+                        bg="#FCF8EE"/>
 
-                        <div>
-                            <label className="font-sm">Street</label>
-                            <input
-                                {...register("temporary_address.street")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="Street"
+                        registration={register('temporary_address.street',{required:true})}
+                        bg="#FCF8EE"/>
                     </div>
                 </div>
 
@@ -172,29 +160,20 @@ const EditStaff = ({ staffId, onClose }: ModalProps) => {
                     <h2 className="text-md font-semibold mb-2">Permanent Address</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label className="font-sm">Country</label>
-                            <input
-                                {...register("permanent_address.country")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="Country"
+                        registration={register('permanent_address.country',{required:true})}
+                        bg="#FCF8EE"/>
 
-                        <div>
-                            <label className="font-sm">City</label>
-                            <input
-                                {...register("permanent_address.city")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="City"
+                        registration={register('permanent_address.city',{required:true})}
+                        bg="#FCF8EE"/>
 
-                        <div>
-                            <label className="font-sm">Street</label>
-                            <input
-                                {...register("permanent_address.street")}
-                                className="w-full p-2 border border-[#C4C4C4] rounded-lg bg-[#FCF8EE]"
-                            />
-                        </div>
+                        <Textfield
+                        label="Street"
+                        registration={register('permanent_address.street',{required:true})}
+                        bg="#FCF8EE"/>
                     </div>
                 </div>
 
