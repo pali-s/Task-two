@@ -11,9 +11,6 @@ const Login = () => {
     const { mutate, isPending } = useLogin();
     const { setAuthData } = useAuth();
 
-    console.log(import.meta.env);
-    console.log(import.meta.env.VITE_API_URL);
-
     interface FormData {
         email: string;
         password: string;
