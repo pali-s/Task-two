@@ -1,5 +1,5 @@
 import { IoMdInformationCircleOutline } from 'react-icons/io'
-import Progressbar from '../../components/Progressbar'
+import Progressbar from '../../components/Ui/Progressbar'
 
 const Subscription = () => {
     return (

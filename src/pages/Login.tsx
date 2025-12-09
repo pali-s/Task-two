@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../queries/useLogin';
 import { toast } from 'react-toastify';
+import Textfield from '../components/Ui/TextField';
 
 const Login = () => {
 
@@ -59,50 +60,29 @@ const Login = () => {
                     <h1 className='font-[SF Pro Display, sans-serif] font-semibold text-[32px] sm:text-[28px] xs:text-[24px] leading-[100%] tracking-[-1%]'>Facility Login</h1>
                     <h2 className='text-[#737373] text-sm sm:text-xs'>Login to access your facility details, track reservations, and keep growing every day.</h2>
 
-                    <div className='flex flex-col space-y-2'>
-                        <label htmlFor='email'
-                            className='text-[#565656]'
-                        >Email address</label>
-                        <input
-                            id='email'
-                            type='email'
-                            placeholder='Enter your email address'
-                            {...register("email", { required: 'Email is required' })}
-                            className='border border-[#C4C4C4] rounded-md px-3 py-2' />
-                        {errors.email && (
-                            <span className='text-red-500 text-sm'>{errors.email.message}</span>
-                        )}
-                    </div>
+                    <Textfield
+                    label="Email Address"
+                    id="email"
+                    type="email"
+                    placeholder='Enter your email address'
+                    registration={register('email',{required:"Email is required"})}
+                    error={errors.email?.message}/>
+                    
+                    <Textfield
+                    label="Facility Code"
+                    id="facility_code"
+                    type="text"
+                    placeholder='Enter your facility code'
+                    registration={register('facility_code',{required:"Facility Code is required"})}
+                    error={errors.facility_code?.message}/>
 
-                    <div className='flex flex-col space-y-2'>
-                        <label htmlFor='facility_code'
-                            className='text-[#565656]'
-                        >Facility Code</label>
-                        <input
-                            id='facility_code'
-                            type='text'
-                            placeholder='Enter your facility code'
-                            {...register("facility_code", { required: 'Facility Code is required' })}
-                            className='border border-[#C4C4C4] rounded-md px-3 py-2' />
-                        {errors.facility_code && (
-                            <span className='text-red-500 text-sm'>{errors.facility_code.message}</span>
-                        )}
-                    </div>
-
-                    <div className='flex flex-col space-y-2'>
-                        <label htmlFor='password'
-                            className='text-[#565656]'
-                        >Password</label>
-                        <input
-                            id='password'
-                            type='password'
-                            placeholder='Enter your password'
-                            {...register("password", { required: 'Password is required' })}
-                            className='border border-[#C4C4C4] rounded-md px-3 py-2' />
-                        {errors.password && (
-                            <span className='text-red-500 text-sm'>{errors.password.message}</span>
-                        )}
-                    </div>
+                    <Textfield
+                    label="Password"
+                    id="password"
+                    type="password"
+                    placeholder='Enter your password'
+                    registration={register('password',{required:"Password is required"})}
+                    error={errors.password?.message}/>
 
                     <div className='flex items-center justify-between'>
                         <div className="flex items-center space-x-2">
