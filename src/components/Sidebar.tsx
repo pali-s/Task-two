@@ -33,12 +33,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setPageName, isOpen }) => {
 
                 <div>
                     {/* logo section */}
-                    <img alt='foodverse-logo' src='src\assets\images\foodverse.png' className={`transition-transform duration-300 ${isOpen ? "scale-100" : "scale-95 mx-3 my-5 w-full"}`}></img>
+                    <img alt='foodverse-logo' src='/images/foodverse.png' className={`transition-transform duration-300 ${isOpen ? "scale-100" : "scale-95 mx-3 my-5 w-full"}`}></img>
 
                     {/* User Section */}
                     <div className={`user-info_section ${isOpen && 'bg-[#F4E9D6] border border-[#ECDBBA] rounded-lg'}  flex items-center ${!isOpen && 'justify-center'} space-x-4 mt-3 mb-4 text-black`}>
                         {/* user image section */}
-                        <img alt='user' className={`${isOpen ? 'w-12 h-12' : 'w-9 h-9'} rounded-full object-cover`} src='src\assets\images\user_logo.jpg'></img>
+                        <img alt='user' className={`${isOpen ? 'w-12 h-12' : 'w-9 h-9'} rounded-full object-cover`} src='/images/user_logo.jpg'></img>
                         {/* text section */}
                         {isOpen &&
                             <div className='flex flex-col leading-tight'>
