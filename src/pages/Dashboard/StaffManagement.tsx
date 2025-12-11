@@ -5,9 +5,12 @@ import { LuArrowUpDown } from 'react-icons/lu'
 import { PiExport } from 'react-icons/pi'
 import { TbFilterPlus } from 'react-icons/tb'
 import { useGetStaff } from '../../queries/user/useGetStaff'
-import { useState } from 'react'
-import { Pagination } from '@mui/material'
+import { useCallback, useMemo, useState } from 'react'
+
 import EditStaff from '../../components/Modals/EditStaff'
+
+import {type ColumnDef} from '@tanstack/react-table'
+import { DataTable } from '../../components/Table/DataTable'
 
 interface FilteredStaff {
     name: string;
@@ -18,18 +21,18 @@ interface FilteredStaff {
 }
 
 const StaffManagement = () => {
-    const [searchText, setSearchText] = useState('');
+    const [globalFilter, setGlobalFilter] = useState('');
+
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
-    const [page, setPage] = useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const [isOpen, setisOpen] = useState(false);
     const [staffId, setStaffId] = useState<string | null>(null);
 
-    const handleEdit = (id: string) => {
+    const handleEdit = useCallback((id: string) => {
         setStaffId(id);
         setisOpen(true);
-    }
+    }, []);
+
 
     const toggleSort = () => {
         if (sortOrder === 'asc') setSortOrder('desc');
@@ -37,39 +40,52 @@ const StaffManagement = () => {
     }
 
     const { data, error } = useGetStaff();
-    const tableHeading: string[] = [
-        'Full Name',
-        'Email',
-        'Phone Number',
-        'Role',
-        'Actions'
-    ]
 
-    const FilteredData = data?.map((staff: FilteredStaff) => ({
-        name: staff.name,
-        email: staff.email,
-        phone_number: staff.phone_number,
-        role: staff.role,
-        id: staff.id,
-    })) || [];
+    const FilteredData: FilteredStaff[] = useMemo(
+        () =>
+            data?.map((s: FilteredStaff) => ({
+                name: s.name,
+                email: s.email,
+                phone_number: s.phone_number,
+                role: s.role,
+                id: s.id
+            })) || [],
+        [data]
+    )
 
-    const filteredRows: FilteredStaff[] = FilteredData
-        .filter((row: FilteredStaff) =>
-            Object.values(row)
-                .join(' ')
-                .toLowerCase()
-                .includes(searchText.toLowerCase())
-        )
-        .sort((a: FilteredStaff, b: FilteredStaff) => {
-            if (!sortOrder) return 0;
-            if (a.name < b.name) return sortOrder === 'asc' ? -1 : 1;
-            if (a.name > b.name) return sortOrder === 'asc' ? 1 : -1;
-            return 0;
-        });
-
-    const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-    const startIndex = (page - 1) * rowsPerPage;
-    const currentRows = filteredRows.slice(startIndex, startIndex + rowsPerPage);
+    //column def for tanstack table
+    const columns = useMemo<ColumnDef<FilteredStaff>[]>(() => [
+        {
+            accessorKey: "name",
+            header: "Full Name",
+            cell: (info) => info.getValue()
+        },
+        {
+            accessorKey: "email",
+            header: "Email",
+            cell: (info) => info.getValue()
+        },
+        {
+            accessorKey: "phone_number",
+            header: "Phone Number",
+            cell: (info) => info.getValue()
+        },
+        {
+            accessorKey: "role",
+            header: "Role",
+            cell: (info) => info.getValue(),
+        },
+        {
+            id: "actions",
+            header: "Actions",
+            cell: ({ row }) => (
+                <div className="flex flex-row gap-2">
+                    <CiTrash className="text-lg" />
+                    <CiEdit className="text-lg" onClick={() => handleEdit(row.original.id)} />
+                </div>
+            )
+        }
+    ], [handleEdit]);
 
     if (error) return <h1>{error.message}</h1>
 
@@ -84,12 +100,14 @@ const StaffManagement = () => {
 
             {/* search, export, filter, sort */}
             <div className='flex flex-col md:flex-row justify-between py-2 w-full gap-2 mt-4'>
+                
                 {/* search bar */}
                 <div className='flex items-center gap-2 p-2 rounded-full w-full md:w-1/2 text-sm border border-[#D0D0D0]'>
                     <span><IoSearch /></span>
                     <input type='text' placeholder='Search Staff'
-                        className='focus:outline-none w-full' value={searchText} onChange={(e) => { setSearchText(e.target.value); setPage(1); }}></input>
+                        className='focus:outline-none w-full' value={globalFilter ?? ""} onChange={(e) => { setGlobalFilter(e.target.value);}}></input>
                 </div>
+
                 {/* export,filter,sort group */}
                 <div className='flex flex-row ,md:justify-end items-center gap-2'>
 
@@ -103,50 +121,10 @@ const StaffManagement = () => {
 
             {/* table content */}
             <div className='mt-4'>
-                <div className='overflow-x-auto w-full'>
-                <table className='min-w-max w-full'>
-                    <thead >
-                        <tr className='bg-[#AEC2B9]'>
-                            {tableHeading.map((th) => <th className='text-sm font-semibold text-left sm:text-md p-3'>{th}</th>)}
-                        </tr>
-                    </thead>
-                    <tbody >
-                        {currentRows.map((row: FilteredStaff, index: number) => (
-                            <tr key={index} className='odd:bg-white even:bg-[#EBF0EE] text-sm sm:text-md justify-center'>
-                                <td className='p-3'>{row.name}</td>
-                                <td className='p-3'>{row.email}</td>
-                                <td className='p-3'>{row.phone_number}</td>
-                                <td className='p-3'>{row.role}</td>
-                                <td className='p-3'><div className='flex flex-row p-3'><CiTrash className='text-lg' /><CiEdit className='text-lg' onClick={() => handleEdit(row.id)} /></div></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                </div>
-                <div className="flex md:justify-between mt-4 flex-col items-center md:flex-row">
-                    <div>
-                        <label className='text-[#565656] pr-2'>Show Result:</label>
-                        <select id="rowsPerPage" value={rowsPerPage} onChange={(e) => {
-                            setRowsPerPage(Number(e.target.value));
-                            setPage(1);
-                        }}
-                            className="p-1 border border-gray-300 rounded-md focus:outline-[#565656]">
-                            {[5, 10, 15, 20].map((n) => (
-                                <option key={n} value={n} className='outline-gray-300'>
-                                    {n}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <Pagination
-                        count={totalPages}
-                        page={page}
-                        onChange={(_, value) => setPage(value)}
-                        color="standard"
-                    />
-                </div>
+                        <DataTable data={FilteredData} columns={columns} globalFilter={globalFilter}/>
             </div>
+
+            {/* edit staff modal */}
             {isOpen && staffId && (<EditStaff staffId={staffId} onClose={() => setisOpen(false)} />)}
         </div>
     )
