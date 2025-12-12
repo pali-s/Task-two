@@ -52,9 +52,11 @@ export const DataTable =<T,> ({data, columns,globalFilter=""}:DataTableProps<T>)
                                     <th key={header.id}
                                         onClick={header.column.getToggleSortingHandler()}
                                         className='text-sm font-semibold text-left sm:text-md p-3'>
+                                        <span className='flex items-center gap-2'>
                                         {flexRender(header.column.columnDef.header, header.getContext())}
                                         {header.column.getIsSorted() === "asc" && <FaArrowUp />}
                                         {header.column.getIsSorted() === "desc" && <FaArrowDown />}
+                                    </span>
                                     </th>
                                 ))}
                             </tr>
